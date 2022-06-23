@@ -1,20 +1,22 @@
 package org.p2p.solanaj.rpc.types;
 
 import java.util.AbstractMap;
-import java.util.List;
 import java.util.Base64;
-
-import com.squareup.moshi.Json;
-
-import org.p2p.solanaj.rpc.types.RpcSendTransactionConfig.Encoding;
+import java.util.List;
 
 import org.bitcoinj.core.Base58;
+import org.p2p.solanaj.rpc.types.RpcSendTransactionConfig.Encoding;
+
+import com.squareup.moshi.Json;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 
 public class ProgramAccount {
 
     public final class Account {
         @Json(name = "data")
         private String data;
+        private AccountData accountData;
         @Json(name = "executable")
         private boolean executable;
         @Json(name = "lamports")
@@ -38,6 +40,11 @@ public class ProgramAccount {
                 this.encoding = (String) dataList.get(1);
             } else if (rawData instanceof String) {
                 this.data = (String) rawData;
+            } else {
+                JsonAdapter<AccountData> adapter = new Moshi.Builder().build()
+                        .adapter(AccountData.class);
+                accountData = adapter.fromJsonValue(rawData);
+                this.encoding = Encoding.jsonParsed.getEncoding();
             }
 
             this.executable = (boolean) account.get("executable");
@@ -74,6 +81,13 @@ public class ProgramAccount {
             return rentEpoch;
         }
 
+        public AccountData getAccountData() {
+            return accountData;
+        }
+
+        public void setAccountData(AccountData accountData) {
+            this.accountData = accountData;
+        }
     }
 
     @Json(name = "account")

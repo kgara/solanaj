@@ -9,6 +9,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -21,7 +22,11 @@ public class RpcClient {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private String endpoint;
-    private OkHttpClient httpClient = new OkHttpClient();
+    private OkHttpClient httpClient = new OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build();
     private RpcApi rpcApi;
 
     public RpcClient(Cluster endpoint) {

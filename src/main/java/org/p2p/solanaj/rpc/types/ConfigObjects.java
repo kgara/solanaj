@@ -1,5 +1,7 @@
 package org.p2p.solanaj.rpc.types;
 
+import static org.p2p.solanaj.rpc.types.RpcSendTransactionConfig.Encoding.binary;
+
 import java.util.List;
 
 import com.squareup.moshi.Json;
@@ -26,6 +28,9 @@ public class ConfigObjects {
         private long offset;
         @Json(name = "bytes")
         private String bytes;
+        @Json(name = "encoding")
+        //"binary" in their terms is the same as "base58"
+        final private Encoding encoding = binary;
 
         public Memcmp() {
         }
@@ -53,9 +58,9 @@ public class ConfigObjects {
     public static class ProgramAccountConfig {
         @Json(name = "encoding")
         private Encoding encoding = null;
+
         @Json(name = "filters")
         private List<Object> filters = null;
-
         public ProgramAccountConfig() {
         }
 
@@ -65,6 +70,11 @@ public class ConfigObjects {
 
         public ProgramAccountConfig(Encoding encoding) {
             this.encoding = encoding;
+        }
+
+        public ProgramAccountConfig(Encoding encoding, List<Object> filters) {
+            this.encoding = encoding;
+            this.filters = filters;
         }
 
     }
