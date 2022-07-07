@@ -11,6 +11,7 @@ import org.p2p.solanaj.rpc.Cluster;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.rpc.RpcException;
 import org.p2p.solanaj.rpc.types.AccountInfo;
+import org.p2p.solanaj.rpc.types.Signature;
 
 public class MainnetTest {
 
@@ -66,6 +67,18 @@ public class MainnetTest {
             final long currentEpochNumber = client.getApi().getCurrentEpochNumber();
             assertNotEquals(0, currentEpochNumber);
             System.out.println(currentEpochNumber);
+        } catch (RpcException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getSignaturesForAddressTest() {
+        final RpcClient client = new RpcClient(Cluster.MAINNET);
+        final String expectedSignature = "5AAvEgyAPtR5DZGCxdQaMAkR6AttBzgf9JjQ9wfyp4Gy6HAUnq8QA5g9pCGGYrY5m97SEN2shiqaRk13RnLAZi3f";
+        try {
+            final List<Signature> signaturesForAddress = client.getApi().getSignaturesForAddress("C2HCvcQbqjAcwuJGr8HukXWmRpuSP7uqxsCLprrP8VLf", 100);
+            assertEquals(1, signaturesForAddress.stream().filter(s -> expectedSignature.equals(s.getSignature())).count());
         } catch (RpcException e) {
             e.printStackTrace();
         }

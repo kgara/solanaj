@@ -26,6 +26,7 @@ import org.p2p.solanaj.rpc.types.RecentBlockhash;
 import org.p2p.solanaj.rpc.types.RpcResultTypes.ValueLong;
 import org.p2p.solanaj.rpc.types.RpcSendTransactionConfig;
 import org.p2p.solanaj.rpc.types.RpcSendTransactionConfig.Encoding;
+import org.p2p.solanaj.rpc.types.Signature;
 import org.p2p.solanaj.rpc.types.SignatureInformation;
 import org.p2p.solanaj.ws.SubscriptionWebSocketClient;
 import org.p2p.solanaj.ws.listeners.NotificationEventListener;
@@ -223,6 +224,24 @@ public class RpcApi {
                 .adapter(InflationReward.class);
 
         return abstractResultsList.stream().map(adapter::fromJsonValue).findFirst().orElse(null);
+
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public List<Signature> getSignaturesForAddress(String address, int limit)
+            throws RpcException {
+        List<Object> params = new ArrayList<Object>();
+
+        params.add(address);
+
+        params.add(Collections.singletonMap("limit", limit));
+
+        List<Object> abstractResultsList = client.call("getSignaturesForAddress", params, List.class);
+
+        JsonAdapter<Signature> adapter = new Moshi.Builder().build()
+                .adapter(Signature.class);
+
+        return abstractResultsList.stream().map(adapter::fromJsonValue).collect(Collectors.toList());
 
     }
 
