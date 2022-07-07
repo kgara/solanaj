@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor
-public class EpochDto {
+public class Epoch {
     @Json(name = "epoch")
     final private int epoch;
 }

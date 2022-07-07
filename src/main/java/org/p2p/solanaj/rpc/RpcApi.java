@@ -19,7 +19,8 @@ import org.p2p.solanaj.rpc.types.ConfigObjects.Filter;
 import org.p2p.solanaj.rpc.types.ConfigObjects.Memcmp;
 import org.p2p.solanaj.rpc.types.ConfigObjects.ProgramAccountConfig;
 import org.p2p.solanaj.rpc.types.ConfirmedTransaction;
-import org.p2p.solanaj.rpc.types.EpochDto;
+import org.p2p.solanaj.rpc.types.Epoch;
+import org.p2p.solanaj.rpc.types.GetTransactionRes;
 import org.p2p.solanaj.rpc.types.InflationReward;
 import org.p2p.solanaj.rpc.types.ProgramAccount;
 import org.p2p.solanaj.rpc.types.RecentBlockhash;
@@ -245,6 +246,15 @@ public class RpcApi {
 
     }
 
+    public GetTransactionRes getTransaction(String signature) throws RpcException {
+        List<Object> params = new ArrayList<Object>();
+
+        params.add(signature);
+        params.add("jsonParsed");
+
+        return client.call("getTransaction", params, GetTransactionRes.class);
+    }
+
     @SuppressWarnings({"unchecked"})
     public long getEpochFirstBlockTimestamp(int epoch) throws RpcException {
         long epochFirstSlot = epoch * SLOTS_PER_EPOCH;
@@ -262,8 +272,8 @@ public class RpcApi {
 
     @SuppressWarnings({"unchecked"})
     public int getCurrentEpochNumber() throws RpcException {
-        EpochDto epochDto = client.call("getEpochInfo", null, EpochDto.class);
-        return epochDto.getEpoch();
+        Epoch epoch = client.call("getEpochInfo", null, Epoch.class);
+        return epoch.getEpoch();
     }
 
 }
