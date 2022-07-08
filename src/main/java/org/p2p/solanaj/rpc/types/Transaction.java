@@ -18,14 +18,14 @@ public class Transaction {
 
     @Getter
     @Setter
-    private static class Message {
+    public static class Message {
         @Json(name = "instructions")
         private List<Instructions> instructions;
     }
 
     @Getter
     @Setter
-    private static class Instructions {
+    public static class Instructions {
         @Json(name = "program")
         private String program;
         @Json(name = "programId")
@@ -36,7 +36,7 @@ public class Transaction {
 
     @Getter
     @Setter
-    private static class ParsedInstruction {
+    public static class ParsedInstruction {
         @Json(name = "type")
         private String type;
         @Json(name = "info")
@@ -45,7 +45,7 @@ public class Transaction {
 
     @Getter
     @Setter
-    private static class InstructionInfo {
+    public static class InstructionInfo {
         @Json(name = "lamports")
         private long lamports;
     }
