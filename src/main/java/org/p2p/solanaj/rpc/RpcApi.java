@@ -37,6 +37,7 @@ import com.squareup.moshi.Moshi;
 
 public class RpcApi {
     public static final long SLOTS_PER_EPOCH = 432000L;
+    public static final int SOL_DECIMALS = 9;
     private RpcClient client;
 
     public RpcApi(RpcClient client) {

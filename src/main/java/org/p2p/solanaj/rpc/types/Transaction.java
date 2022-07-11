@@ -11,6 +11,12 @@ import lombok.Setter;
 @Setter
 public class Transaction {
 
+    public static final String PROGRAM_NAME_STAKE = "stake";
+    public static final String PROGRAM_NAME_SYSTEM = "system";
+    public static final String INSTRUCTION_TYPE_CREATE = "createAccountWithSeed";
+    public static final String INSTRUCTION_TYPE_INITIALIZE = "initialize";
+    public static final String INSTRUCTION_TYPE_DELEGATE = "delegate";
+
     @Json(name = "message")
     private Message message;
     @Json(name = "signatures")
@@ -31,7 +37,7 @@ public class Transaction {
         @Json(name = "programId")
         private String programId;
         @Json(name = "parsed")
-        private ParsedInstruction parsedInstructions;
+        private ParsedInstruction parsedInstruction;
     }
 
     @Getter
