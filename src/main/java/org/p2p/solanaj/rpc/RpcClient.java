@@ -33,8 +33,18 @@ public class RpcClient {
         this(endpoint.getEndpoint());
     }
 
+    public RpcClient(Cluster endpoint, OkHttpClient httpClient) {
+        this(endpoint.getEndpoint(), httpClient);
+    }
+
     public RpcClient(String endpoint) {
         this.endpoint = endpoint;
+        rpcApi = new RpcApi(this);
+    }
+
+    public RpcClient(String endpoint, OkHttpClient httpClient) {
+        this.endpoint = endpoint;
+        this.httpClient = httpClient;
         rpcApi = new RpcApi(this);
     }
 
